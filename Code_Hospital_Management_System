@@ -1,0 +1,151 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+    string gender;
+    string address;
+    string contactNumber;
+
+public:
+    Person(string n, int a, string g, string addr, string c)
+        : name(n), age(a), gender(g), address(addr), contactNumber(c) {}
+
+    virtual void display() const {
+        cout << "Name: " << name << "\nAge: " << age
+             << "\nGender: " << gender
+             << "\nAddress: " << address
+             << "\nContact Number: " << contactNumber << endl;
+    }
+};
+
+class Patient : public Person {
+private:
+    string ailment;
+    string admissionDate;
+    string dischargeDate;
+    string doctorAssigned;
+    string insuranceProvider;
+    string medicalHistory;
+    string allergies;
+
+public:
+    Patient(string n, int a, string g, string addr, string c,
+            string ail, string admDate, string disDate,
+            string doc, string ins, string medHist, string all)
+        : Person(n, a, g, addr, c), ailment(ail), admissionDate(admDate),
+          dischargeDate(disDate), doctorAssigned(doc),
+          insuranceProvider(ins), medicalHistory(medHist), allergies(all) {}
+
+    void display() const override {
+        Person::display();
+        cout << "Ailment: " << ailment
+             << "\nAdmission Date: " << admissionDate
+             << "\nDischarge Date: " << dischargeDate
+             << "\nDoctor Assigned: " << doctorAssigned
+             << "\nInsurance Provider: " << insuranceProvider
+             << "\nMedical History: " << medicalHistory
+             << "\nAllergies: " << allergies << endl;
+    }
+};
+
+class Doctor : public Person {
+private:
+    string specialization;
+    int yearsOfExperience;
+    string licenseNumber;
+    string hospitalAffiliation;
+    string consultingHours;
+    string qualifications;
+    string certifications;
+    string contactEmail;
+
+public:
+    Doctor(string n, int a, string g, string addr, string c,
+           string spec, int exp, string licNum, string hospAff,
+           string hours, string qual, string cert, string email)
+        : Person(n, a, g, addr, c), specialization(spec),
+          yearsOfExperience(exp), licenseNumber(licNum),
+          hospitalAffiliation(hospAff), consultingHours(hours),
+          qualifications(qual), certifications(cert),
+          contactEmail(email) {}
+
+    void display() const override {
+        Person::display();
+        cout << "Specialization: " << specialization
+             << "\nYears of Experience: " << yearsOfExperience
+             << "\nLicense Number: " << licenseNumber
+             << "\nHospital Affiliation: " << hospitalAffiliation
+             << "\nConsulting Hours: " << consultingHours
+             << "\nQualifications: " << qualifications
+             << "\nCertifications: " << certifications
+             << "\nContact Email: " << contactEmail << endl;
+    }
+};
+
+class Hospital {
+private:
+    vector<Patient> patients;
+    vector<Doctor> doctors;
+
+public:
+    void addPatient(const Patient& patient) {
+        patients.push_back(patient);
+    }
+
+    void addDoctor(const Doctor& doctor) {
+        doctors.push_back(doctor);
+    }
+
+    void displayPatients() const {
+        cout << "\nPatients List:\n";
+        for (const auto& patient : patients) {
+            patient.display();
+            cout << "---------------------\n";
+        }
+    }
+
+    void displayDoctors() const {
+        cout << "\nDoctors List:\n";
+        for (const auto& doctor : doctors) {
+            doctor.display();
+            cout << "---------------------\n";
+        }
+    }
+};
+
+int main() {
+    Hospital hospital;
+
+    // Adding patients
+    hospital.addPatient(Patient("Sujit More", 19, "Male", "123 Elm St", "9356672433",
+                                "Flu", "2024-01-01", "2024-01-10",
+                                "Dr. Smith", "XYZ Insurance",
+                                "No major issues", "None"));
+
+    hospital.addPatient(Patient("Gaurav Bodkhe", 25, "Male", "456 Oak St", "7709223249",
+                                "Cough", "2024-01-05", "2024-01-15",
+                                "Dr. Brown", "ABC Insurance",
+                                "Asthma", "Peanuts"));
+
+    // Adding doctors
+    hospital.addDoctor(Doctor("Dr. Saushmita Sen", 45, "Female", "789 Pine St", "9356672433",
+                              "Cardiology", 20, "LIC123456", "City Hospital",
+                              "9 AM - 5 PM", "MD, PhD", "ACLS Certified",
+                              "saushmita12@gmail.com"));
+
+    hospital.addDoctor(Doctor("Dr. Ramesh", 50, "Male", "101 Maple St", "555-4321",
+                              "Neurology", 25, "LIC654321", "County Hospital",
+                              "10 AM - 6 PM", "MD", "Neuro Board Certified",
+                              "Ramesh1@gmail.com"));
+
+    // Display all records
+    hospital.displayPatients();
+    hospital.displayDoctors();
+
+    return 0;
+}
